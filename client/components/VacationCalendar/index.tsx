@@ -289,33 +289,14 @@ export function VacationCalendar() {
                         {expandedPersonId === person.id && (
                           <div className="mt-2 space-y-2">
                             <label className="block text-xs font-medium text-slate-700">
-                              Change Color:
+                              Color:
                             </label>
-                            <div className="flex gap-1 flex-wrap">
-                              {COLORS.map((c) => (
-                                <button
-                                  key={c}
-                                  type="button"
-                                  onClick={() =>
-                                    handleUpdatePersonColor(person.id, c)
-                                  }
-                                  className={`w-5 h-5 rounded-full transition-all ${
-                                    person.color === c
-                                      ? "ring-2 ring-slate-900"
-                                      : "hover:scale-110"
-                                  }`}
-                                  style={{ backgroundColor: c }}
-                                  title={c}
-                                />
-                              ))}
-                            </div>
-                            <input
-                              type="color"
-                              value={person.color}
-                              onChange={(e) =>
-                                handleUpdatePersonColor(person.id, e.target.value)
-                              }
-                              className="w-full h-7 rounded cursor-pointer text-xs"
+                            <button
+                              type="button"
+                              onClick={() => setColorPickerPersonId(person.id)}
+                              className="w-full h-8 rounded transition-all hover:scale-105 border-2 border-slate-300"
+                              style={{ backgroundColor: person.color }}
+                              title="Click to change color"
                             />
                           </div>
                         )}
