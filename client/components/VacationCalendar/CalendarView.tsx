@@ -90,12 +90,12 @@ function getTotalDaysInQuarter(year: number, quarterMonths: number[]): number {
 }
 
 function getQuarterStartDate(year: number, quarterIndex: number): Date {
-  const months = QUARTERS[quarterIndex].months;
+  const months = QUARTERS_TEMPLATE[quarterIndex].months;
   return new Date(year, months[0], 1);
 }
 
 function getQuarterEndDate(year: number, quarterIndex: number): Date {
-  const months = QUARTERS[quarterIndex].months;
+  const months = QUARTERS_TEMPLATE[quarterIndex].months;
   const lastMonth = months[months.length - 1];
   const daysInMonth = getDaysInMonth(lastMonth, year);
   return new Date(year, lastMonth, daysInMonth);
