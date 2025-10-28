@@ -7,7 +7,11 @@ interface VacationFormProps {
   personName: string;
   personColor?: string;
   year: number;
-  onAddVacation: (startDate: Date, endDate: Date) => void;
+  onAddVacation: (
+    startDate: Date,
+    endDate: Date,
+    status: "Confirmed" | "Tentative"
+  ) => void;
 }
 
 export function VacationForm({
@@ -18,6 +22,7 @@ export function VacationForm({
 }: VacationFormProps) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [status, setStatus] = useState<"Confirmed" | "Tentative">("Confirmed");
   const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
