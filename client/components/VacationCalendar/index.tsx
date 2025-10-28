@@ -37,6 +37,7 @@ export function VacationCalendar() {
   const [expandedPersonId, setExpandedPersonId] = useState<string | null>(null);
   const [editingPersonId, setEditingPersonId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
+  const [personToDelete, setPersonToDelete] = useState<Person | null>(null);
 
   const handleAddPerson = (name: string, color: string) => {
     const newPerson: Person = {
