@@ -3,19 +3,32 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 
+const PREDEFINED_COLORS = [
+  "#FF6B6B",
+  "#4ECDC4",
+  "#45B7D1",
+  "#FFA07A",
+  "#98D8C8",
+  "#F7DC6F",
+  "#BB8FCE",
+  "#85C1E2",
+];
+
 interface PersonManagerProps {
-  onAddPerson: (name: string) => void;
+  onAddPerson: (name: string, color: string) => void;
 }
 
 export function PersonManager({ onAddPerson }: PersonManagerProps) {
   const [name, setName] = useState("");
+  const [color, setColor] = useState(PREDEFINED_COLORS[0]);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
-      onAddPerson(name);
+      onAddPerson(name, color);
       setName("");
+      setColor(PREDEFINED_COLORS[0]);
       setIsOpen(false);
     }
   };
@@ -43,6 +56,35 @@ export function PersonManager({ onAddPerson }: PersonManagerProps) {
             autoFocus
             className="border-slate-300 focus:border-blue-500"
           />
+
+          <div>
+            <label className="block text-sm font-medium text-slate-900 mb-2">
+              Color
+            </label>
+            <div className="flex gap-2 flex-wrap mb-3">
+              {PREDEFINED_COLORS.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setColor(c)}
+                  className={`w-7 h-7 rounded-full transition-all ${
+                    color === c
+                      ? "ring-2 ring-slate-900 ring-offset-2"
+                      : "hover:scale-110"
+                  }`}
+                  style={{ backgroundColor: c }}
+                  title={c}
+                />
+              ))}
+            </div>
+            <input
+              type="color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              className="w-full h-9 rounded cursor-pointer"
+            />
+          </div>
+
           <div className="flex gap-2">
             <Button
               type="submit"
@@ -57,6 +99,7 @@ export function PersonManager({ onAddPerson }: PersonManagerProps) {
               onClick={() => {
                 setIsOpen(false);
                 setName("");
+                setColor(PREDEFINED_COLORS[0]);
               }}
               className="flex-1"
             >
