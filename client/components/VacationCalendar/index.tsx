@@ -361,6 +361,23 @@ export function VacationCalendar() {
                               className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                           </div>
+                          <div>
+                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                              Status
+                            </label>
+                            <select
+                              value={editingStatus}
+                              onChange={(e) =>
+                                setEditingStatus(
+                                  e.target.value as "Confirmed" | "Tentative"
+                                )
+                              }
+                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                              <option value="Confirmed">Confirmed</option>
+                              <option value="Tentative">Tentative</option>
+                            </select>
+                          </div>
                           <div className="flex gap-2">
                             <button
                               onClick={handleSaveEditVacation}
@@ -382,7 +399,7 @@ export function VacationCalendar() {
                           className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs"
                         >
                           <div>
-                            <div className="font-medium text-slate-900">
+                            <div className="font-medium text-slate-900 flex items-center gap-2">
                               {vacation.startDate.toLocaleDateString("en-US", {
                                 month: "short",
                                 day: "numeric",
@@ -392,6 +409,15 @@ export function VacationCalendar() {
                                 month: "short",
                                 day: "numeric",
                               })}
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${
+                                  vacation.status === "Confirmed"
+                                    ? "bg-green-600"
+                                    : "bg-yellow-600"
+                                }`}
+                              >
+                                {vacation.status}
+                              </span>
                             </div>
                             <div className="text-slate-600">
                               {Math.ceil(
