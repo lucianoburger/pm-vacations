@@ -312,6 +312,36 @@ export function VacationCalendar() {
             )}
           </div>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {personToDelete && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-6 space-y-4">
+              <h3 className="text-lg font-bold text-slate-900">
+                Remove {personToDelete.name}?
+              </h3>
+              <p className="text-slate-600">
+                This will remove {personToDelete.name} and all their vacation
+                periods from the calendar. This action cannot be undone.
+              </p>
+              <div className="flex gap-3 justify-end">
+                <Button
+                  variant="outline"
+                  onClick={handleCancelDelete}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleConfirmDelete}
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                >
+                  Remove
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
