@@ -64,16 +64,52 @@ export function CalendarView({
             ))}
           </div>
 
-          {/* Empty state message */}
+          {/* Empty state - show calendar template */}
           {people.length === 0 && (
             <div className="grid gap-0" style={{ gridTemplateColumns: "200px repeat(12, 1fr)" }}>
-              <div className="col-span-13" />
-              <div className="col-span-13 flex items-center justify-center py-12 bg-slate-50">
-                <div className="text-center text-slate-500">
-                  <p className="mb-1">No team members added yet</p>
-                  <p className="text-sm">Add a person from the sidebar to start tracking vacations</p>
-                </div>
+              <div className="bg-slate-100 p-3 font-medium text-slate-900 border-r border-slate-200 sticky left-0 z-10 flex items-center justify-center">
+                <p className="text-sm text-slate-600">No team members</p>
               </div>
+              {MONTHS.map((_, monthIndex) => {
+                const daysInMonth = getDaysInMonth(monthIndex, year);
+                const monthStart = new Date(year, monthIndex, 1);
+                const firstDayOfMonth = monthStart.getDay();
+
+                return (
+                  <div
+                    key={monthIndex}
+                    className="min-h-24 border-r border-slate-200 p-2 bg-slate-50 hover:bg-slate-100/50 transition-colors"
+                  >
+                    <div className="grid grid-cols-7 gap-px text-center mb-1">
+                      {Array.from({ length: 7 }).map((_, i) => (
+                        <div key={i} className="text-xs text-slate-400 font-medium">
+                          {["S", "M", "T", "W", "T", "F", "S"][i]}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-7 gap-px">
+                      {Array.from({ length: 42 }).map((_, dayIndex) => {
+                        const dayOfMonth = dayIndex - firstDayOfMonth + 1;
+
+                        if (dayOfMonth < 1 || dayOfMonth > daysInMonth) {
+                          return (
+                            <div key={dayIndex} className="aspect-square text-xs bg-white" />
+                          );
+                        }
+
+                        return (
+                          <div
+                            key={dayIndex}
+                            className="aspect-square text-xs flex items-center justify-center rounded font-medium text-slate-400 bg-white hover:bg-slate-100 transition-colors"
+                          >
+                            {dayOfMonth}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 
