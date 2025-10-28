@@ -152,14 +152,14 @@ function GanttBar({
       }}
       title={`${person.name}: ${vacation.startDate.toLocaleDateString()} - ${vacation.endDate.toLocaleDateString()}`}
     >
-      <span className="text-xs font-semibold text-white truncate">
+      <span className="text-xs font-semibold text-slate-900 truncate">
         {person.name}
       </span>
       <button
         onClick={() => onDelete(vacation.id)}
         className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 flex-shrink-0"
       >
-        <X className="h-3 w-3 text-white hover:text-red-200" />
+        <X className="h-3 w-3 text-slate-900 hover:text-red-600" />
       </button>
     </div>
   );
