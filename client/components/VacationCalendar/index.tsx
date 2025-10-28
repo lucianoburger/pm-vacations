@@ -159,6 +159,7 @@ export function VacationCalendar() {
     setEditingVacationId(null);
     setEditingStartDate("");
     setEditingEndDate("");
+    setEditingStatus("Confirmed");
   };
 
   const currentPersonVacations = selectedPersonId
