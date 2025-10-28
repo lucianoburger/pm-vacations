@@ -1,5 +1,4 @@
 import { Person, VacationPeriod } from "./index";
-import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
 interface CalendarViewProps {
@@ -26,13 +25,6 @@ const MONTHS = [
 
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-const QUARTERS = [
-  { name: "Q1", months: [0, 1, 2] },
-  { name: "Q2", months: [3, 4, 5] },
-  { name: "Q3", months: [6, 7, 8] },
-  { name: "Q4", months: [9, 10, 11] },
-];
-
 function isLeapYear(year: number) {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
@@ -48,30 +40,24 @@ function isDateInRange(date: Date, startDate: Date, endDate: Date): boolean {
   return date >= startDate && date <= endDate;
 }
 
-function getTotalDaysInQuarter(year: number, quarterMonths: number[]): number {
-  return quarterMonths.reduce((sum, month) => {
-    return sum + getDaysInMonth(month, year);
-  }, 0);
+function getTotalDaysInYear(year: number): number {
+  return isLeapYear(year) ? 366 : 365;
 }
 
-function getQuarterStartDate(year: number, quarterIndex: number): Date {
-  const months = QUARTERS[quarterIndex].months;
-  return new Date(year, months[0], 1);
+function getYearStartDate(year: number): Date {
+  return new Date(year, 0, 1);
 }
 
-function getQuarterEndDate(year: number, quarterIndex: number): Date {
-  const months = QUARTERS[quarterIndex].months;
-  const lastMonth = months[months.length - 1];
-  const daysInMonth = getDaysInMonth(lastMonth, year);
-  return new Date(year, lastMonth, daysInMonth);
+function getYearEndDate(year: number): Date {
+  return new Date(year, 11, 31);
 }
 
 interface GanttBarProps {
   startDate: Date;
   endDate: Date;
   color: string;
-  quarterStart: Date;
-  quarterEnd: Date;
+  yearStart: Date;
+  yearEnd: Date;
   totalDays: number;
 }
 
@@ -79,20 +65,18 @@ function GanttBar({
   startDate,
   endDate,
   color,
-  quarterStart,
-  quarterEnd,
+  yearStart,
+  yearEnd,
   totalDays,
 }: GanttBarProps) {
   const clampedStart = new Date(
-    Math.max(startDate.getTime(), quarterStart.getTime())
+    Math.max(startDate.getTime(), yearStart.getTime())
   );
-  const clampedEnd = new Date(
-    Math.min(endDate.getTime(), quarterEnd.getTime())
-  );
+  const clampedEnd = new Date(Math.min(endDate.getTime(), yearEnd.getTime()));
 
   const offsetDays =
     Math.floor(
-      (clampedStart.getTime() - quarterStart.getTime()) / (1000 * 60 * 60 * 24)
+      (clampedStart.getTime() - yearStart.getTime()) / (1000 * 60 * 60 * 24)
     ) + 1;
   const durationDays =
     Math.ceil(
@@ -116,59 +100,46 @@ function GanttBar({
   );
 }
 
-interface QuarterRowProps {
-  year: number;
-  quarterIndex: number;
-  people: Person[];
-  vacations: VacationPeriod[];
-  onDeleteVacation: (vacationId: string) => void;
-}
-
-function QuarterRow({
+export function CalendarView({
   year,
-  quarterIndex,
   people,
   vacations,
   onDeleteVacation,
-}: QuarterRowProps) {
-  const quarter = QUARTERS[quarterIndex];
-  const monthsInQuarter = quarter.months;
-  const quarterStart = getQuarterStartDate(year, quarterIndex);
-  const quarterEnd = getQuarterEndDate(year, quarterIndex);
-  const totalDays = getTotalDaysInQuarter(year, monthsInQuarter);
+}: CalendarViewProps) {
+  const yearStart = getYearStartDate(year);
+  const yearEnd = getYearEndDate(year);
+  const totalDays = getTotalDaysInYear(year);
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full">
           {/* Month headers */}
           <div
             className="grid gap-0"
-            style={{ gridTemplateColumns: "200px repeat(3, 1fr)" }}
+            style={{ gridTemplateColumns: "200px repeat(12, 1fr)" }}
           >
-            <div className="bg-slate-100 p-3 font-semibold text-slate-900 border-r border-slate-200 sticky left-0 z-20">
-              {quarter.name}
-            </div>
-            {monthsInQuarter.map((monthIndex) => (
+            <div className="bg-slate-100 p-3 font-semibold text-slate-900 border-r border-slate-200 sticky left-0 z-20" />
+            {MONTHS.map((month) => (
               <div
-                key={monthIndex}
-                className="bg-slate-100 p-3 font-semibold text-slate-900 border-r border-slate-200 text-center"
+                key={month}
+                className="bg-slate-100 p-3 font-semibold text-slate-900 border-r border-slate-200 text-center text-sm"
               >
-                {MONTHS[monthIndex]}
+                {month}
               </div>
             ))}
           </div>
 
-          {/* Person rows */}
+          {/* Empty state */}
           {people.length === 0 ? (
             <div
               className="grid gap-0"
-              style={{ gridTemplateColumns: "200px repeat(3, 1fr)" }}
+              style={{ gridTemplateColumns: "200px repeat(12, 1fr)" }}
             >
               <div className="bg-slate-50 p-3 font-medium text-slate-900 border-r border-slate-200 sticky left-0 z-10 flex items-center justify-center">
                 <p className="text-sm text-slate-600">No team members</p>
               </div>
-              {monthsInQuarter.map((monthIndex) => {
+              {MONTHS.map((_, monthIndex) => {
                 const daysInMonth = getDaysInMonth(monthIndex, year);
                 const monthStart = new Date(year, monthIndex, 1);
                 const firstDayOfMonth = monthStart.getDay();
@@ -176,14 +147,11 @@ function QuarterRow({
                 return (
                   <div
                     key={monthIndex}
-                    className="min-h-24 border-r border-slate-200 p-2 bg-slate-50 hover:bg-slate-100/50 transition-colors"
+                    className="min-h-32 border-r border-slate-200 p-2 bg-slate-50 hover:bg-slate-100/50 transition-colors"
                   >
                     <div className="grid grid-cols-7 gap-px text-center mb-1">
                       {Array.from({ length: 7 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className="text-xs text-slate-400 font-medium"
-                        >
+                        <div key={i} className="text-xs text-slate-400 font-medium">
                           {["S", "M", "T", "W", "T", "F", "S"][i]}
                         </div>
                       ))}
@@ -225,7 +193,7 @@ function QuarterRow({
                 <div
                   key={person.id}
                   className="grid gap-0 border-b border-slate-200 last:border-b-0"
-                  style={{ gridTemplateColumns: "200px repeat(3, 1fr)" }}
+                  style={{ gridTemplateColumns: "200px repeat(12, 1fr)" }}
                 >
                   {/* Person name */}
                   <div className="bg-slate-50 p-3 font-medium text-slate-900 border-r border-slate-200 sticky left-0 z-10 flex items-center gap-2">
@@ -236,8 +204,8 @@ function QuarterRow({
                     <span className="truncate">{person.name}</span>
                   </div>
 
-                  {/* Month cells */}
-                  {monthsInQuarter.map((monthIndex) => {
+                  {/* Month cells with calendar and Gantt */}
+                  {MONTHS.map((_, monthIndex) => {
                     const daysInMonth = getDaysInMonth(monthIndex, year);
                     const monthStart = new Date(year, monthIndex, 1);
                     const monthEnd = new Date(year, monthIndex, daysInMonth);
@@ -250,9 +218,9 @@ function QuarterRow({
                     return (
                       <div
                         key={monthIndex}
-                        className="min-h-24 border-r border-slate-200 p-2 flex flex-col gap-1 bg-white hover:bg-slate-50/50 transition-colors relative group"
+                        className="min-h-32 border-r border-slate-200 p-2 flex flex-col gap-1 bg-white hover:bg-slate-50/50 transition-colors relative group"
                       >
-                        {/* Gantt timeline */}
+                        {/* Year-wide Gantt timeline */}
                         <div className="relative h-6 bg-slate-100 rounded mb-1 overflow-hidden">
                           {monthVacations.map((vacation) => (
                             <GanttBar
@@ -260,8 +228,8 @@ function QuarterRow({
                               startDate={vacation.startDate}
                               endDate={vacation.endDate}
                               color={person.color}
-                              quarterStart={quarterStart}
-                              quarterEnd={quarterEnd}
+                              yearStart={yearStart}
+                              yearEnd={yearEnd}
                               totalDays={totalDays}
                             />
                           ))}
@@ -299,11 +267,7 @@ function QuarterRow({
                               dayOfMonth
                             );
                             const isVacation = monthVacations.some((v) =>
-                              isDateInRange(
-                                currentDate,
-                                v.startDate,
-                                v.endDate
-                              )
+                              isDateInRange(currentDate, v.startDate, v.endDate)
                             );
 
                             return (
@@ -371,28 +335,6 @@ function QuarterRow({
           )}
         </div>
       </div>
-    </div>
-  );
-}
-
-export function CalendarView({
-  year,
-  people,
-  vacations,
-  onDeleteVacation,
-}: CalendarViewProps) {
-  return (
-    <div className="space-y-6">
-      {QUARTERS.map((_, quarterIndex) => (
-        <QuarterRow
-          key={quarterIndex}
-          year={year}
-          quarterIndex={quarterIndex}
-          people={people}
-          vacations={vacations}
-          onDeleteVacation={onDeleteVacation}
-        />
-      ))}
     </div>
   );
 }
