@@ -153,17 +153,18 @@ function GanttBar({
       title={`${person.name}: ${vacation.startDate.toLocaleDateString()} - ${vacation.endDate.toLocaleDateString()}`}
     >
       <div className="flex items-center gap-1 min-w-0">
-        <span className="text-xs font-semibold text-slate-900 truncate">
-          {person.name}
-        </span>
         <span
-          className={`text-xs font-medium px-1.5 py-0.5 rounded text-white flex-shrink-0 ${
+          className={`font-medium rounded text-white flex-shrink-0 ${
             vacation.status === "Confirmed"
               ? "bg-green-600"
               : "bg-yellow-600"
           }`}
+          style={{ fontSize: "10px", padding: "1px 4px" }}
         >
           {vacation.status === "Confirmed" ? "✓" : "?"}
+        </span>
+        <span className="text-xs font-semibold text-slate-900 truncate">
+          {person.name}
         </span>
       </div>
       <button
