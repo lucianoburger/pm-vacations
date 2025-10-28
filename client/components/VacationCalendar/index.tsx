@@ -20,22 +20,22 @@ export interface VacationPeriod {
 }
 
 const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#FFA07A",
-  "#98D8C8",
-  "#F7DC6F",
-  "#BB8FCE",
-  "#85C1E2",
-  "#FF4757",
-  "#26D0CE",
-  "#1E90FF",
-  "#FF6348",
-  "#7FDBCA",
-  "#FFD93D",
-  "#9B59B6",
-  "#3498DB",
+  "#FF2E63",
+  "#0066FF",
+  "#00C900",
+  "#FFCC00",
+  "#9933FF",
+  "#FF8800",
+  "#FF1493",
+  "#00CCCC",
+  "#8B4513",
+  "#003380",
+  "#CCFF00",
+  "#FF00FF",
+  "#4B0082",
+  "#FFD700",
+  "#DC143C",
+  "#20B2AA",
 ];
 
 export function VacationCalendar() {
