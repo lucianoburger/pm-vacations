@@ -48,12 +48,18 @@ export function VacationCalendar() {
   const [editingPersonId, setEditingPersonId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
   const [personToDelete, setPersonToDelete] = useState<Person | null>(null);
-  const [editingVacationId, setEditingVacationId] = useState<string | null>(null);
+  const [editingVacationId, setEditingVacationId] = useState<string | null>(
+    null,
+  );
   const [editingStartDate, setEditingStartDate] = useState("");
   const [editingEndDate, setEditingEndDate] = useState("");
-  const [editingStatus, setEditingStatus] = useState<"Confirmed" | "Tentative">("Confirmed");
+  const [editingStatus, setEditingStatus] = useState<"Confirmed" | "Tentative">(
+    "Confirmed",
+  );
   const [editingReplacement, setEditingReplacement] = useState("");
-  const [colorPickerPersonId, setColorPickerPersonId] = useState<string | null>(null);
+  const [colorPickerPersonId, setColorPickerPersonId] = useState<string | null>(
+    null,
+  );
 
   const handleAddPerson = (name: string, color: string) => {
     const newPerson: Person = {
@@ -66,7 +72,7 @@ export function VacationCalendar() {
 
   const handleUpdatePersonColor = (personId: string, newColor: string) => {
     setPeople(
-      people.map((p) => (p.id === personId ? { ...p, color: newColor } : p))
+      people.map((p) => (p.id === personId ? { ...p, color: newColor } : p)),
     );
   };
 
@@ -79,8 +85,8 @@ export function VacationCalendar() {
     if (editingName.trim()) {
       setPeople(
         people.map((p) =>
-          p.id === personId ? { ...p, name: editingName } : p
-        )
+          p.id === personId ? { ...p, name: editingName } : p,
+        ),
       );
     }
     setEditingPersonId(null);
@@ -115,7 +121,7 @@ export function VacationCalendar() {
   const handleAddVacation = (
     startDate: Date,
     endDate: Date,
-    status: "Confirmed" | "Tentative" = "Confirmed"
+    status: "Confirmed" | "Tentative" = "Confirmed",
   ) => {
     if (!selectedPersonId) return;
     const newVacation: VacationPeriod = {
@@ -159,8 +165,8 @@ export function VacationCalendar() {
               status: editingStatus,
               replacement: editingReplacement,
             }
-          : v
-      )
+          : v,
+      ),
     );
 
     setEditingVacationId(null);
@@ -280,7 +286,7 @@ export function VacationCalendar() {
                                 setExpandedPersonId(
                                   expandedPersonId === person.id
                                     ? null
-                                    : person.id
+                                    : person.id,
                                 );
                               }}
                               className="flex-1 text-left font-medium text-sm text-slate-900 group-hover:underline cursor-pointer py-1"
@@ -301,7 +307,9 @@ export function VacationCalendar() {
                               </label>
                               <button
                                 type="button"
-                                onClick={() => setColorPickerPersonId(person.id)}
+                                onClick={() =>
+                                  setColorPickerPersonId(person.id)
+                                }
                                 className="w-full h-8 rounded transition-all hover:scale-105 border-2 border-slate-300"
                                 style={{ backgroundColor: person.color }}
                                 title="Click to change color"
@@ -332,7 +340,9 @@ export function VacationCalendar() {
                                               type="date"
                                               value={editingStartDate}
                                               onChange={(e) =>
-                                                setEditingStartDate(e.target.value)
+                                                setEditingStartDate(
+                                                  e.target.value,
+                                                )
                                               }
                                               className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
@@ -345,7 +355,9 @@ export function VacationCalendar() {
                                               type="date"
                                               value={editingEndDate}
                                               onChange={(e) =>
-                                                setEditingEndDate(e.target.value)
+                                                setEditingEndDate(
+                                                  e.target.value,
+                                                )
                                               }
                                               className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
@@ -358,8 +370,9 @@ export function VacationCalendar() {
                                               value={editingStatus}
                                               onChange={(e) =>
                                                 setEditingStatus(
-                                                  e.target
-                                                    .value as "Confirmed" | "Tentative"
+                                                  e.target.value as
+                                                    | "Confirmed"
+                                                    | "Tentative",
                                                 )
                                               }
                                               className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -381,7 +394,11 @@ export function VacationCalendar() {
                                               type="text"
                                               placeholder="Who will cover?"
                                               value={editingReplacement}
-                                              onChange={(e) => setEditingReplacement(e.target.value)}
+                                              onChange={(e) =>
+                                                setEditingReplacement(
+                                                  e.target.value,
+                                                )
+                                              }
                                               className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                           </div>
@@ -412,7 +429,7 @@ export function VacationCalendar() {
                                               {
                                                 month: "short",
                                                 day: "numeric",
-                                              }
+                                              },
                                             )}{" "}
                                             -{" "}
                                             {vacation.endDate.toLocaleDateString(
@@ -420,20 +437,21 @@ export function VacationCalendar() {
                                               {
                                                 month: "short",
                                                 day: "numeric",
-                                              }
+                                              },
                                             )}{" "}
                                             <span className="text-slate-600">
                                               (
                                               {Math.ceil(
                                                 (vacation.endDate.getTime() -
                                                   vacation.startDate.getTime()) /
-                                                  (1000 * 60 * 60 * 24)
+                                                  (1000 * 60 * 60 * 24),
                                               )}{" "}
                                               days)
                                             </span>
                                           </div>
                                           <div className="text-slate-700">
-                                            Replacement: {vacation.replacement || "—"}
+                                            Replacement:{" "}
+                                            {vacation.replacement || "—"}
                                           </div>
                                           <div className="flex items-center gap-2">
                                             <span
@@ -447,7 +465,9 @@ export function VacationCalendar() {
                                             </span>
                                             <button
                                               onClick={() =>
-                                                handleStartEditVacation(vacation)
+                                                handleStartEditVacation(
+                                                  vacation,
+                                                )
                                               }
                                               className="text-blue-600 hover:text-blue-700 font-medium"
                                             >
@@ -455,7 +475,9 @@ export function VacationCalendar() {
                                             </button>
                                             <button
                                               onClick={() =>
-                                                handleDeleteVacation(vacation.id)
+                                                handleDeleteVacation(
+                                                  vacation.id,
+                                                )
                                               }
                                               className="text-red-600 hover:text-red-700 font-medium"
                                             >
@@ -463,7 +485,7 @@ export function VacationCalendar() {
                                             </button>
                                           </div>
                                         </div>
-                                      )
+                                      ),
                                     )}
                                 </div>
                               </div>
@@ -494,7 +516,8 @@ export function VacationCalendar() {
                   people.find((p) => p.id === selectedPersonId)?.name || ""
                 }
                 personColor={
-                  people.find((p) => p.id === selectedPersonId)?.color || "#000000"
+                  people.find((p) => p.id === selectedPersonId)?.color ||
+                  "#000000"
                 }
                 year={year}
                 onAddVacation={handleAddVacation}
@@ -560,8 +583,8 @@ export function VacationCalendar() {
                       setColorPickerPersonId(null);
                     }}
                     className={`w-full aspect-square rounded-lg transition-all border-2 ${
-                      people.find((p) => p.id === colorPickerPersonId)?.color ===
-                      color
+                      people.find((p) => p.id === colorPickerPersonId)
+                        ?.color === color
                         ? "border-slate-900 scale-110"
                         : "border-transparent hover:scale-105"
                     }`}

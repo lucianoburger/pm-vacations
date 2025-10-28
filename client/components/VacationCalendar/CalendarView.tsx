@@ -43,8 +43,13 @@ function getCurrentYear(): number {
 
 function getUpcomingQuarters(
   startQuarter: number,
-  startYear: number
-): Array<{ name: string; months: number[]; year: number; quarterIndex: number }> {
+  startYear: number,
+): Array<{
+  name: string;
+  months: number[];
+  year: number;
+  quarterIndex: number;
+}> {
   const quarters = [];
   let quarter = startQuarter;
   let year = startYear;
@@ -121,19 +126,19 @@ function GanttBar({
   onDelete,
 }: GanttBarProps) {
   const clampedStart = new Date(
-    Math.max(vacation.startDate.getTime(), quarterStart.getTime())
+    Math.max(vacation.startDate.getTime(), quarterStart.getTime()),
   );
   const clampedEnd = new Date(
-    Math.min(vacation.endDate.getTime(), quarterEnd.getTime())
+    Math.min(vacation.endDate.getTime(), quarterEnd.getTime()),
   );
 
   const offsetDays =
     Math.floor(
-      (clampedStart.getTime() - quarterStart.getTime()) / (1000 * 60 * 60 * 24)
+      (clampedStart.getTime() - quarterStart.getTime()) / (1000 * 60 * 60 * 24),
     ) + 1;
   const durationDays =
     Math.ceil(
-      (clampedEnd.getTime() - clampedStart.getTime()) / (1000 * 60 * 60 * 24)
+      (clampedEnd.getTime() - clampedStart.getTime()) / (1000 * 60 * 60 * 24),
     ) + 1;
 
   const leftPercent = (offsetDays / totalDays) * 100;
@@ -155,9 +160,7 @@ function GanttBar({
       <div className="flex items-center gap-1 min-w-0">
         <span
           className={`font-medium rounded text-white flex-shrink-0 ${
-            vacation.status === "Confirmed"
-              ? "bg-green-600"
-              : "bg-yellow-600"
+            vacation.status === "Confirmed" ? "bg-green-600" : "bg-yellow-600"
           }`}
           style={{ fontSize: "10px", padding: "1px 4px" }}
         >
@@ -200,7 +203,7 @@ function QuarterRow({
 
   // Get all vacations for this quarter
   const quarterVacations = vacations.filter(
-    (v) => !(v.endDate < quarterStart || v.startDate > quarterEnd)
+    (v) => !(v.endDate < quarterStart || v.startDate > quarterEnd),
   );
 
   const ganttHeight = people.length > 0 ? people.length * 28 : 60;
@@ -245,7 +248,7 @@ function QuarterRow({
                   {monthsInQuarter.map((_, idx) => {
                     const daysInMonth = getDaysInMonth(
                       monthsInQuarter[idx],
-                      year
+                      year,
                     );
                     const daysUpToMonth = monthsInQuarter
                       .slice(0, idx)
@@ -263,11 +266,13 @@ function QuarterRow({
 
                   {/* Gantt bars for all people */}
                   {quarterVacations.map((vacation, idx) => {
-                    const person = people.find((p) => p.id === vacation.personId);
+                    const person = people.find(
+                      (p) => p.id === vacation.personId,
+                    );
                     if (!person) return null;
 
                     const personIndex = people.findIndex(
-                      (p) => p.id === vacation.personId
+                      (p) => p.id === vacation.personId,
                     );
 
                     return (
@@ -330,13 +335,13 @@ function QuarterRow({
                         const currentDate = new Date(
                           year,
                           monthIndex,
-                          dayOfMonth
+                          dayOfMonth,
                         );
 
                         // Check all people who have vacation on this day
                         const vacationsOnDay = quarterVacations.filter((v) => {
                           const person = people.find(
-                            (p) => p.id === v.personId
+                            (p) => p.id === v.personId,
                           );
                           return (
                             person &&
@@ -345,7 +350,7 @@ function QuarterRow({
                         });
 
                         const overlappingPeople = vacationsOnDay.map((v) =>
-                          people.find((p) => p.id === v.personId)
+                          people.find((p) => p.id === v.personId),
                         );
                         const hasOverlap = overlappingPeople.length > 1;
 
@@ -387,7 +392,9 @@ function QuarterRow({
                                 : "Working day"
                             }
                           >
-                            <span className="relative z-10 text-slate-900">{dayOfMonth}</span>
+                            <span className="relative z-10 text-slate-900">
+                              {dayOfMonth}
+                            </span>
                             {hasOverlap && (
                               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <span className="text-xs font-bold bg-white/90 px-1 py-0.5 rounded text-slate-900 pointer-events-none">
