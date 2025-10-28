@@ -64,6 +64,19 @@ export function CalendarView({
             ))}
           </div>
 
+          {/* Empty state message */}
+          {people.length === 0 && (
+            <div className="grid gap-0" style={{ gridTemplateColumns: "200px repeat(12, 1fr)" }}>
+              <div className="col-span-13" />
+              <div className="col-span-13 flex items-center justify-center py-12 bg-slate-50">
+                <div className="text-center text-slate-500">
+                  <p className="mb-1">No team members added yet</p>
+                  <p className="text-sm">Add a person from the sidebar to start tracking vacations</p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Person rows */}
           {people.map((person) => {
             const personVacations = vacations.filter(
