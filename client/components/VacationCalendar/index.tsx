@@ -53,11 +53,31 @@ export function VacationCalendar() {
     );
   };
 
+  const handleStartEditName = (personId: string, currentName: string) => {
+    setEditingPersonId(personId);
+    setEditingName(currentName);
+  };
+
+  const handleSaveEditName = (personId: string) => {
+    if (editingName.trim()) {
+      setPeople(
+        people.map((p) =>
+          p.id === personId ? { ...p, name: editingName } : p
+        )
+      );
+    }
+    setEditingPersonId(null);
+    setEditingName("");
+  };
+
   const handleDeletePerson = (personId: string) => {
     setPeople(people.filter((p) => p.id !== personId));
     setVacations(vacations.filter((v) => v.personId !== personId));
     if (selectedPersonId === personId) {
       setSelectedPersonId(null);
+    }
+    if (editingPersonId === personId) {
+      setEditingPersonId(null);
     }
   };
 
