@@ -134,38 +134,71 @@ export function VacationCalendar() {
               <h3 className="text-lg font-semibold text-slate-900 mb-4">
                 Team Members
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {people.length === 0 ? (
                   <p className="text-slate-500 text-sm">
                     Add a person to get started
                   </p>
                 ) : (
                   people.map((person) => (
-                    <button
+                    <div
                       key={person.id}
-                      onClick={() => setSelectedPersonId(person.id)}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
+                      className={`p-3 rounded-lg transition-all border-l-4 ${
                         selectedPersonId === person.id
-                          ? "bg-slate-100 border-l-4"
-                          : "hover:bg-slate-50"
+                          ? "bg-slate-100"
+                          : "bg-slate-50 hover:bg-slate-100"
                       }`}
                       style={{
-                        borderLeftColor:
-                          selectedPersonId === person.id
-                            ? person.color
-                            : "transparent",
+                        borderLeftColor: person.color,
                       }}
                     >
-                      <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setSelectedPersonId(person.id)}
+                        className="w-full text-left mb-2 flex items-center gap-2 group"
+                      >
                         <div
-                          className="w-3 h-3 rounded-full"
+                          className="w-3 h-3 rounded-full flex-shrink-0"
                           style={{ backgroundColor: person.color }}
                         />
-                        <span className="font-medium text-sm text-slate-900">
+                        <span className="font-medium text-sm text-slate-900 flex-1 group-hover:underline">
                           {person.name}
                         </span>
-                      </div>
-                    </button>
+                      </button>
+
+                      {selectedPersonId === person.id && (
+                        <div className="mt-2 space-y-2">
+                          <label className="block text-xs font-medium text-slate-700">
+                            Change Color:
+                          </label>
+                          <div className="flex gap-1 flex-wrap">
+                            {COLORS.map((c) => (
+                              <button
+                                key={c}
+                                type="button"
+                                onClick={() =>
+                                  handleUpdatePersonColor(person.id, c)
+                                }
+                                className={`w-5 h-5 rounded-full transition-all ${
+                                  person.color === c
+                                    ? "ring-2 ring-slate-900"
+                                    : "hover:scale-110"
+                                }`}
+                                style={{ backgroundColor: c }}
+                                title={c}
+                              />
+                            ))}
+                          </div>
+                          <input
+                            type="color"
+                            value={person.color}
+                            onChange={(e) =>
+                              handleUpdatePersonColor(person.id, e.target.value)
+                            }
+                            className="w-full h-7 rounded cursor-pointer text-xs"
+                          />
+                        </div>
+                      )}
+                    </div>
                   ))
                 )}
               </div>
