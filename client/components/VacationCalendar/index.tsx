@@ -121,44 +121,11 @@ export function VacationCalendar() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900 mb-2">
-            Vacation Calendar
+            PM Vacation Calendar
           </h1>
           <p className="text-slate-600">
-            Manage team vacations and see overlapping periods at a glance
+            Please mark your desired vacation period below.
           </p>
-        </div>
-
-        {/* Year Selector */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setYear(year - 1)}
-              className="h-9 w-9 p-0"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <h2 className="text-2xl font-bold text-slate-900 w-20 text-center">
-              {year}
-            </h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setYear(year + 1)}
-              className="h-9 w-9 p-0"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setYear(2026)}
-            className="text-sm"
-          >
-            Today (2026)
-          </Button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
