@@ -327,6 +327,9 @@ export function VacationCalendar() {
                 personName={
                   people.find((p) => p.id === selectedPersonId)?.name || ""
                 }
+                personColor={
+                  people.find((p) => p.id === selectedPersonId)?.color || "#000000"
+                }
                 year={year}
                 onAddVacation={handleAddVacation}
               />
