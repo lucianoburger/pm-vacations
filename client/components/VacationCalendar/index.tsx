@@ -383,45 +383,44 @@ export function VacationCalendar() {
                                       ) : (
                                         <div
                                           key={vacation.id}
-                                          className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs"
+                                          className="p-2 bg-slate-50 rounded text-xs space-y-2"
                                         >
-                                          <div>
-                                            <div className="font-medium text-slate-900 flex items-center gap-2">
-                                              {vacation.startDate.toLocaleDateString(
-                                                "en-US",
-                                                {
-                                                  month: "short",
-                                                  day: "numeric",
-                                                }
-                                              )}{" "}
-                                              -{" "}
-                                              {vacation.endDate.toLocaleDateString(
-                                                "en-US",
-                                                {
-                                                  month: "short",
-                                                  day: "numeric",
-                                                }
-                                              )}
-                                              <span
-                                                className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${
-                                                  vacation.status === "Confirmed"
-                                                    ? "bg-green-600"
-                                                    : "bg-yellow-600"
-                                                }`}
-                                              >
-                                                {vacation.status}
-                                              </span>
-                                            </div>
-                                            <div className="text-slate-600">
+                                          <div className="font-medium text-slate-900">
+                                            {vacation.startDate.toLocaleDateString(
+                                              "en-US",
+                                              {
+                                                month: "short",
+                                                day: "numeric",
+                                              }
+                                            )}{" "}
+                                            -{" "}
+                                            {vacation.endDate.toLocaleDateString(
+                                              "en-US",
+                                              {
+                                                month: "short",
+                                                day: "numeric",
+                                              }
+                                            )}{" "}
+                                            <span className="text-slate-600">
+                                              (
                                               {Math.ceil(
                                                 (vacation.endDate.getTime() -
                                                   vacation.startDate.getTime()) /
                                                   (1000 * 60 * 60 * 24)
                                               )}{" "}
-                                              days
-                                            </div>
+                                              days)
+                                            </span>
                                           </div>
-                                          <div className="flex gap-2">
+                                          <div className="flex items-center gap-2">
+                                            <span
+                                              className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${
+                                                vacation.status === "Confirmed"
+                                                  ? "bg-green-600"
+                                                  : "bg-yellow-600"
+                                              }`}
+                                            >
+                                              {vacation.status}
+                                            </span>
                                             <button
                                               onClick={() =>
                                                 handleStartEditVacation(vacation)
