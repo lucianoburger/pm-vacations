@@ -175,6 +175,7 @@ export function VacationCalendar() {
     setEditingStartDate("");
     setEditingEndDate("");
     setEditingStatus("Confirmed");
+    setEditingReplacement("");
   };
 
   const currentPersonVacations = selectedPersonId
