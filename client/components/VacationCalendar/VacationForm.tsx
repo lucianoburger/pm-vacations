@@ -46,39 +46,10 @@ export function VacationForm({
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-semibold text-slate-900 mb-4">
+      <h3 className="text-lg font-semibold text-slate-900 mb-2">
         Add Vacation
       </h3>
-
-      {people.length > 1 && (
-        <div className="mb-4 pb-4 border-b">
-          <label className="block text-sm font-medium text-slate-900 mb-2">
-            Select Person:
-          </label>
-          <div className="space-y-2">
-            {people.map((person) => (
-              <label key={person.id} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="person"
-                  value={person.id}
-                  checked={selectedPersonId === person.id}
-                  onChange={() => {}}
-                  className="w-4 h-4"
-                  disabled
-                />
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: person.color }}
-                  />
-                  <span className="text-sm text-slate-900">{person.name}</span>
-                </div>
-              </label>
-            ))}
-          </div>
-        </div>
-      )}
+      <p className="text-sm text-slate-600 mb-4">For: {personName}</p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
