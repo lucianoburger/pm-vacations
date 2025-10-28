@@ -114,6 +114,43 @@ export function VacationCalendar() {
     setVacations(vacations.filter((v) => v.id !== vacationId));
   };
 
+  const handleStartEditVacation = (vacation: VacationPeriod) => {
+    setEditingVacationId(vacation.id);
+    setEditingStartDate(vacation.startDate.toISOString().split("T")[0]);
+    setEditingEndDate(vacation.endDate.toISOString().split("T")[0]);
+  };
+
+  const handleSaveEditVacation = () => {
+    if (!editingStartDate || !editingEndDate) return;
+
+    const startDate = new Date(editingStartDate);
+    const endDate = new Date(editingEndDate);
+
+    if (startDate > endDate) return;
+
+    setVacations(
+      vacations.map((v) =>
+        v.id === editingVacationId
+          ? {
+              ...v,
+              startDate,
+              endDate,
+            }
+          : v
+      )
+    );
+
+    setEditingVacationId(null);
+    setEditingStartDate("");
+    setEditingEndDate("");
+  };
+
+  const handleCancelEditVacation = () => {
+    setEditingVacationId(null);
+    setEditingStartDate("");
+    setEditingEndDate("");
+  };
+
   const currentPersonVacations = selectedPersonId
     ? vacations.filter((v) => v.personId === selectedPersonId)
     : [];
