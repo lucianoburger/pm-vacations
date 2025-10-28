@@ -143,6 +143,7 @@ export function VacationCalendar() {
               ...v,
               startDate,
               endDate,
+              status: editingStatus,
             }
           : v
       )
@@ -151,6 +152,7 @@ export function VacationCalendar() {
     setEditingVacationId(null);
     setEditingStartDate("");
     setEditingEndDate("");
+    setEditingStatus("Confirmed");
   };
 
   const handleCancelEditVacation = () => {
