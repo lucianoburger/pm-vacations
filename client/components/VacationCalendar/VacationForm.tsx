@@ -47,7 +47,15 @@ export function VacationForm({
       <h3 className="text-lg font-semibold text-slate-900 mb-2">
         Add Vacation
       </h3>
-      <p className="text-sm text-slate-600 mb-4">For: {personName}</p>
+      <p className="text-sm mb-4">
+        For:{" "}
+        <span
+          className="font-bold"
+          style={{ color: personColor }}
+        >
+          {personName}
+        </span>
+      </p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
