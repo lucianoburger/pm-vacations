@@ -34,6 +34,7 @@ export function VacationCalendar() {
   const [people, setPeople] = useState<Person[]>([]);
   const [vacations, setVacations] = useState<VacationPeriod[]>([]);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  const [expandedPersonId, setExpandedPersonId] = useState<string | null>(null);
 
   const handleAddPerson = (name: string, color: string) => {
     const newPerson: Person = {
