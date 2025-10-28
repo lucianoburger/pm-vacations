@@ -47,17 +47,6 @@ export function CalendarView({
   vacations,
   onDeleteVacation,
 }: CalendarViewProps) {
-  if (people.length === 0) {
-    return (
-      <div className="bg-white rounded-lg shadow-md p-12 text-center">
-        <p className="text-slate-600 mb-2">No team members added yet</p>
-        <p className="text-slate-400 text-sm">
-          Add a person from the sidebar to start tracking vacations
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="overflow-x-auto">
