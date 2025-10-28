@@ -302,6 +302,8 @@ export function VacationCalendar() {
                 }
                 year={year}
                 onAddVacation={handleAddVacation}
+                people={people}
+                selectedPersonId={selectedPersonId}
               />
             )}
           </div>
