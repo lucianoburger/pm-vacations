@@ -375,7 +375,7 @@ function QuarterRow({
                                 : "Working day"
                             }
                           >
-                            <span className="relative z-10">{dayOfMonth}</span>
+                            <span className="relative z-10 text-slate-900">{dayOfMonth}</span>
                             {hasOverlap && (
                               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <span className="text-xs font-bold bg-white/90 px-1 py-0.5 rounded text-slate-900">
