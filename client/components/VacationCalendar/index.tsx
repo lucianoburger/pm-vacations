@@ -35,13 +35,19 @@ export function VacationCalendar() {
   const [vacations, setVacations] = useState<VacationPeriod[]>([]);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
 
-  const handleAddPerson = (name: string) => {
+  const handleAddPerson = (name: string, color: string) => {
     const newPerson: Person = {
       id: Date.now().toString(),
       name,
-      color: COLORS[people.length % COLORS.length],
+      color,
     };
     setPeople([...people, newPerson]);
+  };
+
+  const handleUpdatePersonColor = (personId: string, newColor: string) => {
+    setPeople(
+      people.map((p) => (p.id === personId ? { ...p, color: newColor } : p))
+    );
   };
 
   const handleDeletePerson = (personId: string) => {
