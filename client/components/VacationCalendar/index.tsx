@@ -123,6 +123,7 @@ export function VacationCalendar() {
       startDate,
       endDate,
       status,
+      replacement: "",
     };
     setVacations([...vacations, newVacation]);
   };
