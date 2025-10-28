@@ -138,6 +138,7 @@ export function VacationCalendar() {
     setEditingStartDate(vacation.startDate.toISOString().split("T")[0]);
     setEditingEndDate(vacation.endDate.toISOString().split("T")[0]);
     setEditingStatus(vacation.status);
+    setEditingReplacement(vacation.replacement || "");
   };
 
   const handleSaveEditVacation = () => {
