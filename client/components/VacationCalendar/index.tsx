@@ -100,13 +100,18 @@ export function VacationCalendar() {
     setPersonToDelete(null);
   };
 
-  const handleAddVacation = (startDate: Date, endDate: Date) => {
+  const handleAddVacation = (
+    startDate: Date,
+    endDate: Date,
+    status: "Confirmed" | "Tentative" = "Confirmed"
+  ) => {
     if (!selectedPersonId) return;
     const newVacation: VacationPeriod = {
       id: Date.now().toString(),
       personId: selectedPersonId,
       startDate,
       endDate,
+      status,
     };
     setVacations([...vacations, newVacation]);
   };
