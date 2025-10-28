@@ -28,6 +28,14 @@ const COLORS = [
   "#F7DC6F",
   "#BB8FCE",
   "#85C1E2",
+  "#FF4757",
+  "#26D0CE",
+  "#1E90FF",
+  "#FF6348",
+  "#7FDBCA",
+  "#FFD93D",
+  "#9B59B6",
+  "#3498DB",
 ];
 
 export function VacationCalendar() {
