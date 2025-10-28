@@ -180,7 +180,7 @@ function QuarterRow({
   vacations,
   onDeleteVacation,
 }: QuarterRowProps) {
-  const quarter = QUARTERS[quarterIndex];
+  const quarter = QUARTERS_TEMPLATE[quarterIndex];
   const monthsInQuarter = quarter.months;
   const quarterStart = getQuarterStartDate(year, quarterIndex);
   const quarterEnd = getQuarterEndDate(year, quarterIndex);
