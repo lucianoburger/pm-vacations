@@ -287,17 +287,164 @@ export function VacationCalendar() {
                         </div>
 
                         {expandedPersonId === person.id && (
-                          <div className="mt-2 space-y-2">
-                            <label className="block text-xs font-medium text-slate-700">
-                              Color:
-                            </label>
-                            <button
-                              type="button"
-                              onClick={() => setColorPickerPersonId(person.id)}
-                              className="w-full h-8 rounded transition-all hover:scale-105 border-2 border-slate-300"
-                              style={{ backgroundColor: person.color }}
-                              title="Click to change color"
-                            />
+                          <div className="mt-3 space-y-3 border-t pt-3">
+                            <div className="space-y-2">
+                              <label className="block text-xs font-medium text-slate-700">
+                                Color:
+                              </label>
+                              <button
+                                type="button"
+                                onClick={() => setColorPickerPersonId(person.id)}
+                                className="w-full h-8 rounded transition-all hover:scale-105 border-2 border-slate-300"
+                                style={{ backgroundColor: person.color }}
+                                title="Click to change color"
+                              />
+                            </div>
+
+                            {/* Vacation Periods for this person */}
+                            {vacations.filter((v) => v.personId === person.id)
+                              .length > 0 && (
+                              <div className="border-t pt-3">
+                                <h5 className="font-semibold text-slate-900 mb-2 text-xs">
+                                  Vacation Periods
+                                </h5>
+                                <div className="space-y-2">
+                                  {vacations
+                                    .filter((v) => v.personId === person.id)
+                                    .map((vacation) =>
+                                      editingVacationId === vacation.id ? (
+                                        <div
+                                          key={vacation.id}
+                                          className="p-3 bg-blue-50 rounded border border-blue-200 space-y-2"
+                                        >
+                                          <div>
+                                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                                              Start Date
+                                            </label>
+                                            <input
+                                              type="date"
+                                              value={editingStartDate}
+                                              onChange={(e) =>
+                                                setEditingStartDate(e.target.value)
+                                              }
+                                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                          </div>
+                                          <div>
+                                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                                              End Date
+                                            </label>
+                                            <input
+                                              type="date"
+                                              value={editingEndDate}
+                                              onChange={(e) =>
+                                                setEditingEndDate(e.target.value)
+                                              }
+                                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                          </div>
+                                          <div>
+                                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                                              Status
+                                            </label>
+                                            <select
+                                              value={editingStatus}
+                                              onChange={(e) =>
+                                                setEditingStatus(
+                                                  e.target
+                                                    .value as "Confirmed" | "Tentative"
+                                                )
+                                              }
+                                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                              <option value="Confirmed">
+                                                Confirmed
+                                              </option>
+                                              <option value="Tentative">
+                                                Tentative
+                                              </option>
+                                            </select>
+                                          </div>
+                                          <div className="flex gap-2">
+                                            <button
+                                              onClick={handleSaveEditVacation}
+                                              className="flex-1 px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors"
+                                            >
+                                              Save
+                                            </button>
+                                            <button
+                                              onClick={handleCancelEditVacation}
+                                              className="flex-1 px-2 py-1 text-xs border border-slate-300 rounded font-medium text-slate-900 hover:bg-slate-50 transition-colors"
+                                            >
+                                              Cancel
+                                            </button>
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <div
+                                          key={vacation.id}
+                                          className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs"
+                                        >
+                                          <div>
+                                            <div className="font-medium text-slate-900 flex items-center gap-2">
+                                              {vacation.startDate.toLocaleDateString(
+                                                "en-US",
+                                                {
+                                                  month: "short",
+                                                  day: "numeric",
+                                                }
+                                              )}{" "}
+                                              -{" "}
+                                              {vacation.endDate.toLocaleDateString(
+                                                "en-US",
+                                                {
+                                                  month: "short",
+                                                  day: "numeric",
+                                                }
+                                              )}
+                                              <span
+                                                className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${
+                                                  vacation.status === "Confirmed"
+                                                    ? "bg-green-600"
+                                                    : "bg-yellow-600"
+                                                }`}
+                                              >
+                                                {vacation.status}
+                                              </span>
+                                            </div>
+                                            <div className="text-slate-600">
+                                              {Math.ceil(
+                                                (vacation.endDate.getTime() -
+                                                  vacation.startDate.getTime()) /
+                                                  (1000 * 60 * 60 * 24)
+                                              )}{" "}
+                                              days
+                                            </div>
+                                          </div>
+                                          <div className="flex gap-2">
+                                            <button
+                                              onClick={() =>
+                                                handleStartEditVacation(vacation)
+                                              }
+                                              className="text-blue-600 hover:text-blue-700 font-medium"
+                                            >
+                                              Edit
+                                            </button>
+                                            <button
+                                              onClick={() =>
+                                                handleDeleteVacation(vacation.id)
+                                              }
+                                              className="text-red-600 hover:text-red-700 font-medium"
+                                            >
+                                              Delete
+                                            </button>
+                                          </div>
+                                        </div>
+                                      )
+                                    )}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
