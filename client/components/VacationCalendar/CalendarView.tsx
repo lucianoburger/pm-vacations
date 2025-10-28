@@ -404,13 +404,17 @@ export function CalendarView({
   vacations,
   onDeleteVacation,
 }: CalendarViewProps) {
+  const currentQuarter = getCurrentQuarter();
+  const currentYear = getCurrentYear();
+  const upcomingQuarters = getUpcomingQuarters(currentQuarter, currentYear);
+
   return (
     <div className="space-y-6">
-      {QUARTERS.map((_, quarterIndex) => (
+      {upcomingQuarters.map((quarter) => (
         <QuarterRow
-          key={quarterIndex}
-          year={year}
-          quarterIndex={quarterIndex}
+          key={`${quarter.year}-${quarter.quarterIndex}`}
+          year={quarter.year}
+          quarterIndex={quarter.quarterIndex}
           people={people}
           vacations={vacations}
           onDeleteVacation={onDeleteVacation}
