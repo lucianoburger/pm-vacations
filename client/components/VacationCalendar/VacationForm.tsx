@@ -7,16 +7,12 @@ interface VacationFormProps {
   personName: string;
   year: number;
   onAddVacation: (startDate: Date, endDate: Date) => void;
-  people?: Array<{ id: string; name: string; color: string }>;
-  selectedPersonId?: string;
 }
 
 export function VacationForm({
   personName,
   year,
   onAddVacation,
-  people = [],
-  selectedPersonId = "",
 }: VacationFormProps) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
