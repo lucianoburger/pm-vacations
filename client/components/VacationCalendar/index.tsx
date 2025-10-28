@@ -42,6 +42,7 @@ export function VacationCalendar() {
   const [editingVacationId, setEditingVacationId] = useState<string | null>(null);
   const [editingStartDate, setEditingStartDate] = useState("");
   const [editingEndDate, setEditingEndDate] = useState("");
+  const [editingStatus, setEditingStatus] = useState<"Confirmed" | "Tentative">("Confirmed");
 
   const handleAddPerson = (name: string, color: string) => {
     const newPerson: Person = {
