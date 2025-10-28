@@ -316,51 +316,6 @@ export function VacationCalendar() {
               vacations={vacations}
               onDeleteVacation={handleDeleteVacation}
             />
-
-            {/* Vacation Details for Selected Person */}
-            {selectedPersonId && currentPersonVacations.length > 0 && (
-              <div className="bg-white rounded-lg shadow-md p-6 mt-6">
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">
-                  Vacation Periods
-                </h3>
-                <div className="space-y-2">
-                  {currentPersonVacations.map((vacation) => (
-                    <div
-                      key={vacation.id}
-                      className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
-                    >
-                      <div className="text-sm">
-                        <div className="font-medium text-slate-900">
-                          {vacation.startDate.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}{" "}
-                          -{" "}
-                          {vacation.endDate.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </div>
-                        <div className="text-slate-600">
-                          {Math.ceil(
-                            (vacation.endDate.getTime() -
-                              vacation.startDate.getTime()) /
-                              (1000 * 60 * 60 * 24)
-                          )}{" "}
-                          days
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleDeleteVacation(vacation.id)}
-                        className="text-red-600 hover:text-red-700 text-sm font-medium"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
