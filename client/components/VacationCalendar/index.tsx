@@ -322,40 +322,92 @@ export function VacationCalendar() {
                     Vacation Periods for {people.find((p) => p.id === selectedPersonId)?.name}
                   </h4>
                   <div className="space-y-2">
-                    {currentPersonVacations.map((vacation) => (
-                      <div
-                        key={vacation.id}
-                        className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs"
-                      >
-                        <div>
-                          <div className="font-medium text-slate-900">
-                            {vacation.startDate.toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })}{" "}
-                            -{" "}
-                            {vacation.endDate.toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })}
+                    {currentPersonVacations.map((vacation) =>
+                      editingVacationId === vacation.id ? (
+                        <div
+                          key={vacation.id}
+                          className="p-3 bg-blue-50 rounded border border-blue-200 space-y-2"
+                        >
+                          <div>
+                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                              Start Date
+                            </label>
+                            <input
+                              type="date"
+                              value={editingStartDate}
+                              onChange={(e) => setEditingStartDate(e.target.value)}
+                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
                           </div>
-                          <div className="text-slate-600">
-                            {Math.ceil(
-                              (vacation.endDate.getTime() -
-                                vacation.startDate.getTime()) /
-                                (1000 * 60 * 60 * 24)
-                            )}{" "}
-                            days
+                          <div>
+                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                              End Date
+                            </label>
+                            <input
+                              type="date"
+                              value={editingEndDate}
+                              onChange={(e) => setEditingEndDate(e.target.value)}
+                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={handleSaveEditVacation}
+                              className="flex-1 px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={handleCancelEditVacation}
+                              className="flex-1 px-2 py-1 text-xs border border-slate-300 rounded font-medium text-slate-900 hover:bg-slate-50 transition-colors"
+                            >
+                              Cancel
+                            </button>
                           </div>
                         </div>
-                        <button
-                          onClick={() => handleDeleteVacation(vacation.id)}
-                          className="text-red-600 hover:text-red-700 font-medium"
+                      ) : (
+                        <div
+                          key={vacation.id}
+                          className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs"
                         >
-                          Delete
-                        </button>
-                      </div>
-                    ))}
+                          <div>
+                            <div className="font-medium text-slate-900">
+                              {vacation.startDate.toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                              })}{" "}
+                              -{" "}
+                              {vacation.endDate.toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </div>
+                            <div className="text-slate-600">
+                              {Math.ceil(
+                                (vacation.endDate.getTime() -
+                                  vacation.startDate.getTime()) /
+                                  (1000 * 60 * 60 * 24)
+                              )}{" "}
+                              days
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleStartEditVacation(vacation)}
+                              className="text-blue-600 hover:text-blue-700 font-medium"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeleteVacation(vacation.id)}
+                              className="text-red-600 hover:text-red-700 font-medium"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               )}
