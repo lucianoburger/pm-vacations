@@ -25,12 +25,48 @@ const MONTHS = [
 
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-const QUARTERS = [
+const QUARTERS_TEMPLATE = [
   { name: "Q1", months: [0, 1, 2] },
   { name: "Q2", months: [3, 4, 5] },
   { name: "Q3", months: [6, 7, 8] },
   { name: "Q4", months: [9, 10, 11] },
 ];
+
+function getCurrentQuarter(): number {
+  const now = new Date();
+  return Math.floor(now.getMonth() / 3);
+}
+
+function getCurrentYear(): number {
+  return new Date().getFullYear();
+}
+
+function getUpcomingQuarters(
+  startQuarter: number,
+  startYear: number
+): Array<{ name: string; months: number[]; year: number; quarterIndex: number }> {
+  const quarters = [];
+  let quarter = startQuarter;
+  let year = startYear;
+
+  for (let i = 0; i < 4; i++) {
+    const q = QUARTERS_TEMPLATE[quarter];
+    quarters.push({
+      name: q.name,
+      months: q.months,
+      year,
+      quarterIndex: quarter,
+    });
+
+    quarter++;
+    if (quarter > 3) {
+      quarter = 0;
+      year++;
+    }
+  }
+
+  return quarters;
+}
 
 function isLeapYear(year: number) {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
