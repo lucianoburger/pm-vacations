@@ -432,6 +432,9 @@ export function VacationCalendar() {
                                               days)
                                             </span>
                                           </div>
+                                          <div className="text-slate-700">
+                                            Replacement: {vacation.replacement || "—"}
+                                          </div>
                                           <div className="flex items-center gap-2">
                                             <span
                                               className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${
