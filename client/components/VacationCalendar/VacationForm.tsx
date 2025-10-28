@@ -42,9 +42,10 @@ export function VacationForm({
       return;
     }
 
-    onAddVacation(start, end);
+    onAddVacation(start, end, status);
     setStartDate("");
     setEndDate("");
+    setStatus("Confirmed");
   };
 
   return (
