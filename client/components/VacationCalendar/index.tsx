@@ -279,7 +279,7 @@ export function VacationCalendar() {
               {selectedPersonId && currentPersonVacations.length > 0 && (
                 <div className="border-t pt-4">
                   <h4 className="font-semibold text-slate-900 mb-3 text-sm">
-                    Vacation Periods
+                    Vacation Periods for {people.find((p) => p.id === selectedPersonId)?.name}
                   </h4>
                   <div className="space-y-2">
                     {currentPersonVacations.map((vacation) => (
