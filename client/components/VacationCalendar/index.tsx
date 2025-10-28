@@ -72,14 +72,28 @@ export function VacationCalendar() {
   };
 
   const handleDeletePerson = (personId: string) => {
-    setPeople(people.filter((p) => p.id !== personId));
-    setVacations(vacations.filter((v) => v.personId !== personId));
-    if (selectedPersonId === personId) {
-      setSelectedPersonId(null);
+    const personToRemove = people.find((p) => p.id === personId);
+    if (personToRemove) {
+      setPersonToDelete(personToRemove);
     }
-    if (editingPersonId === personId) {
-      setEditingPersonId(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (personToDelete) {
+      setPeople(people.filter((p) => p.id !== personToDelete.id));
+      setVacations(vacations.filter((v) => v.personId !== personToDelete.id));
+      if (selectedPersonId === personToDelete.id) {
+        setSelectedPersonId(null);
+      }
+      if (editingPersonId === personToDelete.id) {
+        setEditingPersonId(null);
+      }
+      setPersonToDelete(null);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setPersonToDelete(null);
   };
 
   const handleAddVacation = (startDate: Date, endDate: Date) => {
