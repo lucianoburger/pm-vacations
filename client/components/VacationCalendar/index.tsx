@@ -175,23 +175,44 @@ export function VacationCalendar() {
                         borderLeftColor: person.color,
                       }}
                     >
-                      <button
-                        onClick={() => {
-                          setSelectedPersonId(person.id);
-                          setExpandedPersonId(
-                            expandedPersonId === person.id ? null : person.id
-                          );
-                        }}
-                        className="w-full text-left mb-2 flex items-center gap-2 group"
-                      >
+                      <div className="w-full text-left mb-2 flex items-center gap-2 group">
                         <div
                           className="w-3 h-3 rounded-full flex-shrink-0"
                           style={{ backgroundColor: person.color }}
                         />
-                        <span className="font-medium text-sm text-slate-900 flex-1 group-hover:underline">
-                          {person.name}
-                        </span>
-                      </button>
+                        {editingPersonId === person.id ? (
+                          <input
+                            type="text"
+                            value={editingName}
+                            onChange={(e) => setEditingName(e.target.value)}
+                            onBlur={() => handleSaveEditName(person.id)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleSaveEditName(person.id);
+                              } else if (e.key === "Escape") {
+                                setEditingPersonId(null);
+                              }
+                            }}
+                            autoFocus
+                            className="flex-1 px-2 py-1 text-sm border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        ) : (
+                          <button
+                            onClick={() => {
+                              setSelectedPersonId(person.id);
+                              setExpandedPersonId(
+                                expandedPersonId === person.id ? null : person.id
+                              );
+                            }}
+                            className="flex-1 text-left font-medium text-sm text-slate-900 group-hover:underline cursor-pointer py-1"
+                            onDoubleClick={() =>
+                              handleStartEditName(person.id, person.name)
+                            }
+                          >
+                            {person.name}
+                          </button>
+                        )}
+                      </div>
 
                       {expandedPersonId === person.id && (
                         <div className="mt-2 space-y-2">
