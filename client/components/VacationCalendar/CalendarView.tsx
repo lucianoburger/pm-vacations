@@ -285,8 +285,8 @@ function QuarterRow({
                           dayOfMonth
                         );
 
-                        // Check if any person has vacation on this day
-                        const vacationOnDay = quarterVacations.find((v) => {
+                        // Check all people who have vacation on this day
+                        const vacationsOnDay = quarterVacations.filter((v) => {
                           const person = people.find(
                             (p) => p.id === v.personId
                           );
@@ -296,27 +296,52 @@ function QuarterRow({
                           );
                         });
 
-                        const person = vacationOnDay
-                          ? people.find((p) => p.id === vacationOnDay.personId)
-                          : null;
+                        const overlappingPeople = vacationsOnDay.map((v) =>
+                          people.find((p) => p.id === v.personId)
+                        );
+                        const hasOverlap = overlappingPeople.length > 1;
 
                         return (
                           <div
                             key={dayIndex}
-                            className="aspect-square text-xs flex items-center justify-center rounded font-medium transition-colors"
+                            className={`aspect-square text-xs flex items-center justify-center rounded font-medium transition-colors relative group ${
+                              hasOverlap
+                                ? "ring-2 ring-offset-1 ring-yellow-500"
+                                : ""
+                            }`}
                             style={{
-                              backgroundColor: person
-                                ? person.color
-                                : "white",
-                              color: person ? "white" : "inherit",
+                              backgroundColor:
+                                overlappingPeople.length > 0
+                                  ? overlappingPeople[0]?.color || "white"
+                                  : "white",
+                              color: overlappingPeople.length > 0 ? "white" : "inherit",
+                              backgroundImage:
+                                hasOverlap
+                                  ? `repeating-linear-gradient(
+                                      45deg,
+                                      ${overlappingPeople[0]?.color || "white"},
+                                      ${overlappingPeople[0]?.color || "white"} 2px,
+                                      ${overlappingPeople[1]?.color || "white"} 2px,
+                                      ${overlappingPeople[1]?.color || "white"} 4px
+                                    )`
+                                  : undefined,
                             }}
                             title={
-                              person
-                                ? `${person.name} on vacation`
+                              overlappingPeople.length > 0
+                                ? `${overlappingPeople.map((p) => p?.name).join(", ")} on vacation${
+                                    hasOverlap ? " (OVERLAP)" : ""
+                                  }`
                                 : "Working day"
                             }
                           >
-                            {dayOfMonth}
+                            <span className="relative z-10">{dayOfMonth}</span>
+                            {hasOverlap && (
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-xs font-bold bg-white/90 px-1 py-0.5 rounded text-slate-900">
+                                  {overlappingPeople.length}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         );
                       })}
