@@ -134,114 +134,163 @@ export function VacationCalendar() {
             {/* Add Person Form */}
             <PersonManager onAddPerson={handleAddPerson} />
 
-            {/* People List */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">
-                Team Members
-              </h3>
-              <div className="space-y-3">
-                {people.length === 0 ? (
-                  <p className="text-slate-500 text-sm">
-                    Add a person to get started
-                  </p>
-                ) : (
-                  people.map((person) => (
-                    <div
-                      key={person.id}
-                      className={`p-3 rounded-lg transition-all border-l-4 ${
-                        selectedPersonId === person.id
-                          ? "bg-slate-100"
-                          : "bg-slate-50 hover:bg-slate-100"
-                      }`}
-                      style={{
-                        borderLeftColor: person.color,
-                      }}
-                    >
-                      <div className="w-full text-left mb-2 flex items-center gap-2 group">
-                        <div
-                          className="w-3 h-3 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: person.color }}
-                        />
-                        {editingPersonId === person.id ? (
-                          <input
-                            type="text"
-                            value={editingName}
-                            onChange={(e) => setEditingName(e.target.value)}
-                            onBlur={() => handleSaveEditName(person.id)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                handleSaveEditName(person.id);
-                              } else if (e.key === "Escape") {
-                                setEditingPersonId(null);
-                              }
-                            }}
-                            autoFocus
-                            className="flex-1 px-2 py-1 text-sm border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            {/* People List with Vacation Periods */}
+            <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                  Team Members
+                </h3>
+                <div className="space-y-3">
+                  {people.length === 0 ? (
+                    <p className="text-slate-500 text-sm">
+                      Add a person to get started
+                    </p>
+                  ) : (
+                    people.map((person) => (
+                      <div
+                        key={person.id}
+                        className={`p-3 rounded-lg transition-all border-l-4 ${
+                          selectedPersonId === person.id
+                            ? "bg-slate-100"
+                            : "bg-slate-50 hover:bg-slate-100"
+                        }`}
+                        style={{
+                          borderLeftColor: person.color,
+                        }}
+                      >
+                        <div className="w-full text-left mb-2 flex items-center gap-2 group">
+                          <div
+                            className="w-3 h-3 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: person.color }}
                           />
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setSelectedPersonId(person.id);
-                              setExpandedPersonId(
-                                expandedPersonId === person.id ? null : person.id
-                              );
-                            }}
-                            className="flex-1 text-left font-medium text-sm text-slate-900 group-hover:underline cursor-pointer py-1"
-                            onDoubleClick={() =>
-                              handleStartEditName(person.id, person.name)
-                            }
-                          >
-                            {person.name}
-                          </button>
+                          {editingPersonId === person.id ? (
+                            <input
+                              type="text"
+                              value={editingName}
+                              onChange={(e) => setEditingName(e.target.value)}
+                              onBlur={() => handleSaveEditName(person.id)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  handleSaveEditName(person.id);
+                                } else if (e.key === "Escape") {
+                                  setEditingPersonId(null);
+                                }
+                              }}
+                              autoFocus
+                              className="flex-1 px-2 py-1 text-sm border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setSelectedPersonId(person.id);
+                                setExpandedPersonId(
+                                  expandedPersonId === person.id
+                                    ? null
+                                    : person.id
+                                );
+                              }}
+                              className="flex-1 text-left font-medium text-sm text-slate-900 group-hover:underline cursor-pointer py-1"
+                              onDoubleClick={() =>
+                                handleStartEditName(person.id, person.name)
+                              }
+                            >
+                              {person.name}
+                            </button>
+                          )}
+                        </div>
+
+                        {expandedPersonId === person.id && (
+                          <div className="mt-2 space-y-2">
+                            <label className="block text-xs font-medium text-slate-700">
+                              Change Color:
+                            </label>
+                            <div className="flex gap-1 flex-wrap">
+                              {COLORS.map((c) => (
+                                <button
+                                  key={c}
+                                  type="button"
+                                  onClick={() =>
+                                    handleUpdatePersonColor(person.id, c)
+                                  }
+                                  className={`w-5 h-5 rounded-full transition-all ${
+                                    person.color === c
+                                      ? "ring-2 ring-slate-900"
+                                      : "hover:scale-110"
+                                  }`}
+                                  style={{ backgroundColor: c }}
+                                  title={c}
+                                />
+                              ))}
+                            </div>
+                            <input
+                              type="color"
+                              value={person.color}
+                              onChange={(e) =>
+                                handleUpdatePersonColor(person.id, e.target.value)
+                              }
+                              className="w-full h-7 rounded cursor-pointer text-xs"
+                            />
+                          </div>
                         )}
                       </div>
+                    ))
+                  )}
+                </div>
 
-                      {expandedPersonId === person.id && (
-                        <div className="mt-2 space-y-2">
-                          <label className="block text-xs font-medium text-slate-700">
-                            Change Color:
-                          </label>
-                          <div className="flex gap-1 flex-wrap">
-                            {COLORS.map((c) => (
-                              <button
-                                key={c}
-                                type="button"
-                                onClick={() =>
-                                  handleUpdatePersonColor(person.id, c)
-                                }
-                                className={`w-5 h-5 rounded-full transition-all ${
-                                  person.color === c
-                                    ? "ring-2 ring-slate-900"
-                                    : "hover:scale-110"
-                                }`}
-                                style={{ backgroundColor: c }}
-                                title={c}
-                              />
-                            ))}
-                          </div>
-                          <input
-                            type="color"
-                            value={person.color}
-                            onChange={(e) =>
-                              handleUpdatePersonColor(person.id, e.target.value)
-                            }
-                            className="w-full h-7 rounded cursor-pointer text-xs"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ))
+                {/* Delete Button for Selected Person */}
+                {selectedPersonId && (
+                  <button
+                    onClick={() => handleDeletePerson(selectedPersonId)}
+                    className="mt-4 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  >
+                    Remove Selected
+                  </button>
                 )}
               </div>
 
-              {/* Delete Button for Selected Person */}
-              {selectedPersonId && (
-                <button
-                  onClick={() => handleDeletePerson(selectedPersonId)}
-                  className="mt-4 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                >
-                  Remove Selected
-                </button>
+              {/* Vacation Periods */}
+              {selectedPersonId && currentPersonVacations.length > 0 && (
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-slate-900 mb-3 text-sm">
+                    Vacation Periods
+                  </h4>
+                  <div className="space-y-2">
+                    {currentPersonVacations.map((vacation) => (
+                      <div
+                        key={vacation.id}
+                        className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs"
+                      >
+                        <div>
+                          <div className="font-medium text-slate-900">
+                            {vacation.startDate.toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })}{" "}
+                            -{" "}
+                            {vacation.endDate.toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </div>
+                          <div className="text-slate-600">
+                            {Math.ceil(
+                              (vacation.endDate.getTime() -
+                                vacation.startDate.getTime()) /
+                                (1000 * 60 * 60 * 24)
+                            )}{" "}
+                            days
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => handleDeleteVacation(vacation.id)}
+                          className="text-red-600 hover:text-red-700 font-medium"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 
