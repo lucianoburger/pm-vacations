@@ -17,6 +17,7 @@ export interface VacationPeriod {
   startDate: Date;
   endDate: Date;
   status: "Confirmed" | "Tentative";
+  replacement: string;
 }
 
 const COLORS = [
