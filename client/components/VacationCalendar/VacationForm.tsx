@@ -5,12 +5,14 @@ import { Calendar } from "lucide-react";
 
 interface VacationFormProps {
   personName: string;
+  personColor?: string;
   year: number;
   onAddVacation: (startDate: Date, endDate: Date) => void;
 }
 
 export function VacationForm({
   personName,
+  personColor = "#000000",
   year,
   onAddVacation,
 }: VacationFormProps) {
