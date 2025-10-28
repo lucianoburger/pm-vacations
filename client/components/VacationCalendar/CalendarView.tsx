@@ -301,6 +301,20 @@ function QuarterRow({
                         );
                         const hasOverlap = overlappingPeople.length > 1;
 
+                        // Build horizontal stripe gradient for overlapping vacations
+                        let backgroundImage = undefined;
+                        if (hasOverlap && overlappingPeople.length > 1) {
+                          const stripes = overlappingPeople
+                            .map((person, idx) => {
+                              const percent = 100 / overlappingPeople.length;
+                              const start = percent * idx;
+                              const end = percent * (idx + 1);
+                              return `${person?.color || "white"} ${start}%, ${person?.color || "white"} ${end}%`;
+                            })
+                            .join(", ");
+                          backgroundImage = `linear-gradient(to bottom, ${stripes})`;
+                        }
+
                         return (
                           <div
                             key={dayIndex}
@@ -315,16 +329,7 @@ function QuarterRow({
                                   ? overlappingPeople[0]?.color || "white"
                                   : "white",
                               color: overlappingPeople.length > 0 ? "white" : "inherit",
-                              backgroundImage:
-                                hasOverlap
-                                  ? `repeating-linear-gradient(
-                                      45deg,
-                                      ${overlappingPeople[0]?.color || "white"},
-                                      ${overlappingPeople[0]?.color || "white"} 2px,
-                                      ${overlappingPeople[1]?.color || "white"} 2px,
-                                      ${overlappingPeople[1]?.color || "white"} 4px
-                                    )`
-                                  : undefined,
+                              backgroundImage: backgroundImage,
                             }}
                             title={
                               overlappingPeople.length > 0
