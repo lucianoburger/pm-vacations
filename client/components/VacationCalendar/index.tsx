@@ -372,6 +372,20 @@ export function VacationCalendar() {
                                               </option>
                                             </select>
                                           </div>
+
+                                          <div>
+                                            <label className="block text-xs font-medium text-slate-900 mb-1">
+                                              Replacement
+                                            </label>
+                                            <input
+                                              type="text"
+                                              placeholder="Who will cover?"
+                                              value={editingReplacement}
+                                              onChange={(e) => setEditingReplacement(e.target.value)}
+                                              className="w-full px-2 py-1 text-xs border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                          </div>
+
                                           <div className="flex gap-2">
                                             <button
                                               onClick={handleSaveEditVacation}
