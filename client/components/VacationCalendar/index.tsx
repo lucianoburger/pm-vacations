@@ -140,6 +140,33 @@ export function VacationCalendar() {
                 <h3 className="text-lg font-semibold text-slate-900 mb-4">
                   Team Members
                 </h3>
+                {people.length > 1 && (
+                  <div className="mb-4 pb-3 border-b space-y-2">
+                    {people.map((person) => (
+                      <label
+                        key={person.id}
+                        className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded transition-colors"
+                      >
+                        <input
+                          type="radio"
+                          name="vacation-person"
+                          checked={selectedPersonId === person.id}
+                          onChange={() => setSelectedPersonId(person.id)}
+                          className="w-4 h-4"
+                        />
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: person.color }}
+                          />
+                          <span className="text-sm text-slate-900">
+                            {person.name}
+                          </span>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                )}
                 <div className="space-y-3">
                   {people.length === 0 ? (
                     <p className="text-slate-500 text-sm">
