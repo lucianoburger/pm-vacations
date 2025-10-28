@@ -152,9 +152,20 @@ function GanttBar({
       }}
       title={`${person.name}: ${vacation.startDate.toLocaleDateString()} - ${vacation.endDate.toLocaleDateString()}`}
     >
-      <span className="text-xs font-semibold text-slate-900 truncate">
-        {person.name}
-      </span>
+      <div className="flex items-center gap-1 min-w-0">
+        <span className="text-xs font-semibold text-slate-900 truncate">
+          {person.name}
+        </span>
+        <span
+          className={`text-xs font-medium px-1.5 py-0.5 rounded text-white flex-shrink-0 ${
+            vacation.status === "Confirmed"
+              ? "bg-green-600"
+              : "bg-yellow-600"
+          }`}
+        >
+          {vacation.status === "Confirmed" ? "✓" : "?"}
+        </span>
+      </div>
       <button
         onClick={() => onDelete(vacation.id)}
         className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 flex-shrink-0"
