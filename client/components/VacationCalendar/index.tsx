@@ -154,7 +154,12 @@ export function VacationCalendar() {
                       }}
                     >
                       <button
-                        onClick={() => setSelectedPersonId(person.id)}
+                        onClick={() => {
+                          setSelectedPersonId(person.id);
+                          setExpandedPersonId(
+                            expandedPersonId === person.id ? null : person.id
+                          );
+                        }}
                         className="w-full text-left mb-2 flex items-center gap-2 group"
                       >
                         <div
@@ -166,7 +171,7 @@ export function VacationCalendar() {
                         </span>
                       </button>
 
-                      {selectedPersonId === person.id && (
+                      {expandedPersonId === person.id && (
                         <div className="mt-2 space-y-2">
                           <label className="block text-xs font-medium text-slate-700">
                             Change Color:
