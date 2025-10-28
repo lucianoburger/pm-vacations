@@ -495,6 +495,44 @@ export function VacationCalendar() {
             </div>
           </div>
         )}
+
+        {/* Color Picker Modal */}
+        {colorPickerPersonId && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-6 space-y-4">
+              <h3 className="text-lg font-bold text-slate-900">
+                Choose a Color
+              </h3>
+              <div className="grid grid-cols-4 gap-2">
+                {COLORS.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    onClick={() => {
+                      handleUpdatePersonColor(colorPickerPersonId, color);
+                      setColorPickerPersonId(null);
+                    }}
+                    className={`w-full aspect-square rounded-lg transition-all border-2 ${
+                      people.find((p) => p.id === colorPickerPersonId)?.color ===
+                      color
+                        ? "border-slate-900 scale-110"
+                        : "border-transparent hover:scale-105"
+                    }`}
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
+                ))}
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => setColorPickerPersonId(null)}
+                className="w-full"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
