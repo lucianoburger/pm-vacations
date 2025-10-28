@@ -364,7 +364,7 @@ function QuarterRow({
                                 overlappingPeople.length > 0
                                   ? overlappingPeople[0]?.color || "white"
                                   : "white",
-                              color: overlappingPeople.length > 0 ? "white" : "inherit",
+                              color: "inherit",
                               backgroundImage: backgroundImage,
                             }}
                             title={
