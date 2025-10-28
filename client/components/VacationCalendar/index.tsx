@@ -52,6 +52,7 @@ export function VacationCalendar() {
   const [editingStartDate, setEditingStartDate] = useState("");
   const [editingEndDate, setEditingEndDate] = useState("");
   const [editingStatus, setEditingStatus] = useState<"Confirmed" | "Tentative">("Confirmed");
+  const [editingReplacement, setEditingReplacement] = useState("");
   const [colorPickerPersonId, setColorPickerPersonId] = useState<string | null>(null);
 
   const handleAddPerson = (name: string, color: string) => {
